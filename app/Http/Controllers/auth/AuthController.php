@@ -7,20 +7,17 @@ use Illuminate\Http\Request;
 
 use App\Services\EmailVerificationService;
 use App\Http\Requests\SendVerificationCodeRequest;
-
-
+use App\Traits\ApiResponseTrait;
 
 class AuthController extends Controller
 {
+    use ApiResponseTrait ;
     public function sendVerificationCode(SendVerificationCodeRequest $request , EmailVerificationService $service)
 {
-    $request->validate([
-        'email' => 'required|email|unique:users,email',
-    ]);
-
+    
     $service->sendCode($request->email);
 
-    return response()->json(['message' => 'Verification code sent.']);
+    return $this->ApiResponse( null , 'Verification code sent successfully.' , 200);
 }
 
 }
