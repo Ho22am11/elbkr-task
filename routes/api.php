@@ -3,6 +3,8 @@
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\PasswordResetController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\product\CampanyController;
+use App\Http\Controllers\product\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +27,10 @@ Route::prefix('auth')->group(function(){
 Route::post('/send-reset-code', [PasswordResetController::class, 'sendPasswordResetCode']);
 Route::post('/verify-reset-code', [PasswordResetController::class, 'verifyResetCode']);
 Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
+
+Route::resource('/categories' , CategoryController::class);
+
+Route::resource('/campanies' , CampanyController::class);
+Route::post('/campanies/{id}', [CampanyController::class, 'update']);
 
 
