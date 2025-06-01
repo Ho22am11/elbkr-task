@@ -5,6 +5,7 @@ use App\Http\Controllers\auth\PasswordResetController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\product\CampanyController;
 use App\Http\Controllers\product\CategoryController;
+use App\Http\Controllers\product\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,5 +33,8 @@ Route::resource('/categories' , CategoryController::class);
 
 Route::resource('/campanies' , CampanyController::class);
 Route::post('/campanies/{id}', [CampanyController::class, 'update']);
+
+Route::resource('/products', ProductController::class);
+Route::post('/products/{id}', [ProductController::class, 'update']);
 
 

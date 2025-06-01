@@ -29,7 +29,7 @@ class CampanyController extends Controller
     
     public function store(StoreCampanyRequest $request, CampanyService $campany)
     {
-        $campany_data = $campany->store($request);
+        $campany_data = $this->campanyService->store($request);
         
         return $this->ApiResponse($campany_data , 'Category stored successfully' , 201);
         
@@ -38,7 +38,7 @@ class CampanyController extends Controller
     public function update(StoreCampanyRequest $request, $id , CampanyService $service)
     {
 
-        $updatedCampany = $service->update($request, $id);
+        $updatedCampany = $this->campanyService->update($request, $id);
         
         return $this->ApiResponse($updatedCampany, 'Category updated successfully', 200);
     }
