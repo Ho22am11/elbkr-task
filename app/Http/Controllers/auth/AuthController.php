@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use App\Services\EmailVerificationService;
 use App\Http\Requests\SendVerificationCodeRequest;
 use App\Http\Requests\VerifyCodeRequest;
 use App\Models\EmailVerification;
+use App\Models\User;
+use App\Services\AuthService;
 use App\Traits\ApiResponseTrait;
 
 class AuthController extends Controller
@@ -32,13 +36,38 @@ class AuthController extends Controller
             return $this->ApiResponse( null , 'Invalid verification code.' , 422);
         }
         
-        return response()->json(['message' => 'Email verified successfully.']);
         return $this->ApiResponse( null , 'Email verified successfully.' , 200);
         
     }
     
+    public function register(RegisterRequest $request , AuthService $authService)
+    {
     
+         $user = $authService->register($request->all());
+
+        if (isset($user['error'])) {
+            return $this->ApiResponse( null , $user['error']  , $user['status']);
+
+        }
+
+        return $this->ApiResponse( $user , 'Registration successful.' , 201);
         
+    }
+
+
+    public function login(LoginRequest $request , AuthService $authService)
+    {
+
+        $user = $authService->login($request->all());
+
+        if (isset($user['error'])) {
+            return $this->ApiResponse( null , $user['error']  , $user['status']);
+
+        }
+        return $this->ApiResponse( $user , 'login successfully' , 201);
+
+    }
     
+
 
 }

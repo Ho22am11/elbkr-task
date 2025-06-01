@@ -10,8 +10,5 @@ trait ApiResponseTrait {
             'message' =>  $message ,
             'data' => $data  ] , $status) ;
         
-        
-     
-        
     }
 }
