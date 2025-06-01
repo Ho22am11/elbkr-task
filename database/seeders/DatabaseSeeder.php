@@ -7,13 +7,10 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
+
     public function run(): void
     {
-        $this->call(ServiceSeeder::class);
-        $this->call(CuisinesSeeder::class);
-        $this->call(PackageSeeder::class);
+        $this->call(CategorySeeder::class);
+
     }
 }
