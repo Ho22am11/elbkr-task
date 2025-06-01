@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class LoginRequest extends FormRequest
+class VerifyResetCodeRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,7 +17,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => 'required|email|exists:users,email',
-            'password' => 'required|string|min:6',
+            'code'  => 'required|numeric',
         ];
     }
 
@@ -25,10 +25,10 @@ class LoginRequest extends FormRequest
     {
         return [
             'email.required' => 'يرجى إدخال البريد الإلكتروني.',
-            'email.email' => 'صيغة البريد الإلكتروني غير صحيحة.',
-            'email.exists' => 'هذا البريد الإلكتروني غير مسجل.',
-            'password.required' => 'يرجى إدخال كلمة المرور.',
-            'password.min' => 'يجب أن تكون كلمة المرور على الأقل 6 أحرف.',
+            'email.email'    => 'صيغة البريد الإلكتروني غير صحيحة.',
+            'email.exists'   => 'هذا البريد الإلكتروني غير مسجل.',
+            'code.required'  => 'يرجى إدخال كود التحقق.',
+            'code.numeric'   => 'كود التحقق يجب أن يكون رقمًا.',
         ];
     }
 
@@ -37,7 +37,7 @@ class LoginRequest extends FormRequest
         throw new HttpResponseException(
             response()->json([
                 'message' => 'Validation failed.',
-                'errors' => $validator->errors(),
+                'errors'  => $validator->errors(),
             ], 422)
         );
     }

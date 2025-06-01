@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Http\Requests;
-
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class ResetPasswordRequest extends FormRequest
 {
-    public function authorize(): bool
+     public function authorize(): bool
     {
         return true;
     }
@@ -26,9 +25,9 @@ class LoginRequest extends FormRequest
         return [
             'email.required' => 'يرجى إدخال البريد الإلكتروني.',
             'email.email' => 'صيغة البريد الإلكتروني غير صحيحة.',
-            'email.exists' => 'هذا البريد الإلكتروني غير مسجل.',
-            'password.required' => 'يرجى إدخال كلمة المرور.',
-            'password.min' => 'يجب أن تكون كلمة المرور على الأقل 6 أحرف.',
+            'email.exists' => 'البريد الإلكتروني غير موجود.',
+            'password.required' => 'يرجى إدخال كلمة المرور الجديدة.',
+            'password.min' => 'يجب أن تكون كلمة المرور 6 أحرف على الأقل.',
         ];
     }
 
@@ -37,8 +36,9 @@ class LoginRequest extends FormRequest
         throw new HttpResponseException(
             response()->json([
                 'message' => 'Validation failed.',
-                'errors' => $validator->errors(),
+                'errors'  => $validator->errors(),
             ], 422)
         );
     }
+
 }

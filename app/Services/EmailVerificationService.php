@@ -6,6 +6,7 @@ use App\Mail\VerificationCodeMail;
 use App\Models\EmailVerification;
 use Illuminate\Support\Facades\Mail;
 
+
 class EmailVerificationService
 {
     public function sendCode(string $email): void
@@ -22,9 +23,6 @@ class EmailVerificationService
     }
 
 
-    
-
-
 
     public function verifyCode(string $email, string $code): bool
     {
@@ -37,6 +35,7 @@ class EmailVerificationService
         }
 
         $record->update(['verified' => true]);
+        
 
         return true;
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\auth\AuthController;
+use App\Http\Controllers\auth\PasswordResetController;
 use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,5 +21,9 @@ Route::prefix('auth')->group(function(){
     Route::post('logout' , [ AuthController::class , 'logout']);
     Route::post('refresh' , [ AuthController::class , 'refresh']);
 });
+
+Route::post('/send-reset-code', [PasswordResetController::class, 'sendPasswordResetCode']);
+Route::post('/verify-reset-code', [PasswordResetController::class, 'verifyResetCode']);
+Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
 
 
