@@ -20,4 +20,27 @@ class EmailVerificationService
 
         Mail::to($email)->send(new VerificationCodeMail($code));
     }
+
+
+    
+
+
+
+    public function verifyCode(string $email, string $code): bool
+    {
+        $record = EmailVerification::where('email', $email)
+                    ->where('code', $code)
+                    ->first();
+
+        if (!$record) {
+            return false;
+        }
+
+        $record->update(['verified' => true]);
+
+        return true;
+    }
+
+
+
 }
