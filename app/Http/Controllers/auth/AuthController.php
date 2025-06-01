@@ -14,6 +14,7 @@ use App\Models\EmailVerification;
 use App\Models\User;
 use App\Services\AuthService;
 use App\Traits\ApiResponseTrait;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -66,6 +67,25 @@ class AuthController extends Controller
         }
         return $this->ApiResponse( $user , 'login successfully' , 201);
 
+    }
+
+
+    public function logout(Request $request){
+        $token = $request->bearerToken();
+
+        JWTAuth::setToken($token)->invalidate();
+
+        return $this->ApiResponse( null , 'Logged out successfully' , 201);
+    
+    }
+
+    public function refresh(Request $request){
+
+        $token = $request->bearerToken();
+        
+        JWTAuth::setToken($token)->refresh();
+
+        return $this->ApiResponse( $token , 'refresh successfully' , 201);
     }
     
 
