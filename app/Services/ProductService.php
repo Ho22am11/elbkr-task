@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\ProductAttachement;
 use App\Models\ProductAttechment;
@@ -10,6 +11,43 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
+    
+        public function getFilteredProducts(Request $request)
+    {
+        $products = Product::with('attachements')
+        ->withAvg('rates', 'rating')
+        ->when($request->filled('campany_id'), function ($query) use ($request) {
+            $query->where('campany_id', $request->campany_id);
+        })
+        ->when($request->filled('category_id'), function ($query) use ($request) {
+            $query->where('category_id', $request->category_id);
+        })
+        ->when($request->filled('sort_by'), function ($query) use ($request) {
+            $allowedSorts = ['name', 'price', 'id', 'rating'];
+            $sortField = in_array($request->sort_by, $allowedSorts) ? $request->sort_by : 'id';
+            $sortDir = $request->get('sort_dir', 'asc');
+
+            if ($sortField === 'rating') {
+                $query->orderBy('rates_avg_rating', $sortDir);
+            } else {
+                $query->orderBy($sortField, $sortDir);
+            }
+        })
+        ->paginate(10);
+
+        return [
+            'products' => ProductResource::collection($products),
+            'meta' => [
+                'current_page' => $products->currentPage(),
+                'total_pages'  => $products->lastPage(),
+                'per_page'     => $products->perPage(),
+                'total_items'  => $products->total(),
+            ]
+        ];
+    }
+    
+
+
     public function storeProduct(Request $request): Product
     {
         $product = Product::create($request->only([

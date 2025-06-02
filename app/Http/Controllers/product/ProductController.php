@@ -22,9 +22,19 @@ class ProductController extends Controller
         $this->productservice = $productservice;
     }
 
-    public function index()
+
+    public function index(Request $request)
     {
-       // $products = Product::all();
+        $response = $this->productservice->getFilteredProducts($request);
+        
+        return response()->json([
+            'status' => 200,
+            'message' => 'Products retrieved successfully',
+            'data' => $response['products'],
+            'meta' => $response['meta']
+        ]);
+        
+
     }
 
  

@@ -24,6 +24,7 @@ class ProductResource extends JsonResource
             'campany_image' => $this->campany->img ,
             'category_id' => $this->category_id,
             'category_name' => $this->campany->name ,
+            'avg_rating' => $this->rates_avg_rating ?  $this->rates_avg_rating : 3.5,
             'images'      => $this->attachements->map(function ($img) {
                 return asset('storage/' . $img->img);
             }),
