@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\OrderAdminController;
 use App\Http\Controllers\admin\OrderController as AdminOrderController;
+use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\PasswordResetController;
 use App\Http\Controllers\MessageController;
@@ -40,8 +41,9 @@ Route::middleware(['auth:api'])->group(function () {
     Route::middleware(['admin'])->group(function () {
         Route::resource('/campanies' , CampanyController::class);
         Route::post('/campanies/{id}', [CampanyController::class, 'update']);
+        Route::post('/deleteAccount/{id}', [UserController::class, 'deleteAccount']);
         Route::post('/products/{id}', [ProductController::class, 'update']);
-        Route::resource('/admin/orders', OrderAdminController::class)->only('index' , 'destroy');
+        Route::resource('/admin/orders', OrderAdminController::class)->only('index' , 'destroy' ,'update');
 
     });
     

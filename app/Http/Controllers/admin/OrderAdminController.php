@@ -17,6 +17,18 @@ class OrderAdminController extends Controller
          return $this->ApiResponse( OrderResource::collection($order) , 'orders retrieved successfully', 200);
         
     }
+
+    public function update(Request $request , $id)
+    {
+        $order = Order::find($id);
+        $order->update([
+            'status' => $request->status ,
+        ]);
+
+         return $this->ApiResponse( new OrderResource($order) , 'orders updated status successfully', 200);
+        
+    }
+
     public function destroy($id)
     {
         Order::destroy($id);
