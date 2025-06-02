@@ -12,4 +12,9 @@ class CartItem extends Model
     protected $fillable = ['user_id', 'product_id', 'quantity' , 'export_type'];
     public $timestamps = false;
 
+    public function product()
+    {
+        return $this->belongsTo(product::class);
+    }
+
 }
