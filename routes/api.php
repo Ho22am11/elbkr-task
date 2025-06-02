@@ -4,6 +4,7 @@ use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\auth\PasswordResetController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Order\CartItemController;
+use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\product\CampanyController;
 use App\Http\Controllers\product\CategoryController;
 use App\Http\Controllers\product\ProductController;
@@ -41,5 +42,9 @@ Route::resource('/products', ProductController::class);
 Route::post('/products/{id}', [ProductController::class, 'update']);
 Route::resource('/rates', ProductRateController::class);
 Route::resource('/carts', CartItemController::class);
+Route::resource('/orders', OrderController::class);
+
+Route::post('/orders/cancel/{id}', [OrderController::class, 'cancelOrder']);
+
 
 

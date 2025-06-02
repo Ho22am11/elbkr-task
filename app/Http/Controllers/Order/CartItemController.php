@@ -38,11 +38,9 @@ class CartItemController extends Controller
 
     public function update(StoreOrderItemRequest $request ,$id )
     {
-        $user = JWTAuth::parseToken()->authenticate();
 
-            $data = $request->all();
-            $cart = CartItem::find($id);
-            $cart->update($request->all());
+        $cart = CartItem::find($id);
+        $cart->update($request->all());
         return $this->ApiResponse(new cartItemResource($cart), 'cart updated successflly' , 200) ;
     }
 
