@@ -22,6 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/send-verification-code', [AuthController::class, 'sendVerificationCode']);
 Route::post('/verify-code', [AuthController::class, 'verifyCode']);
 
+Route::post('/send-reset-code', [PasswordResetController::class, 'sendPasswordResetCode']);
+Route::post('/verify-reset-code', [PasswordResetController::class, 'verifyResetCode']);
+Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
+
 Route::prefix('auth')->group(function(){
     Route::post('/register' , [ AuthController::class , 'register']);
     Route::post('login' , [ AuthController::class , 'login']);
@@ -29,22 +33,30 @@ Route::prefix('auth')->group(function(){
     Route::post('refresh' , [ AuthController::class , 'refresh']);
 });
 
-Route::post('/send-reset-code', [PasswordResetController::class, 'sendPasswordResetCode']);
-Route::post('/verify-reset-code', [PasswordResetController::class, 'verifyResetCode']);
-Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
+Route::middleware(['auth:api'])->group(function () {
 
-Route::resource('/categories' , CategoryController::class);
+    Route::middleware(['admin'])->group(function () {
+        Route::resource('/campanies' , CampanyController::class);
+        Route::post('/campanies/{id}', [CampanyController::class, 'update']);
+        Route::post('/products/{id}', [ProductController::class, 'update']);
 
-Route::resource('/campanies' , CampanyController::class);
-Route::post('/campanies/{id}', [CampanyController::class, 'update']);
+    });
+    
+    Route::resource('/categories' , CategoryController::class);
+    Route::resource('/campanies' , CampanyController::class)->only('index');
+    
+    Route::resource('/products', ProductController::class)->only('index' , 'show');
+    Route::resource('/rates', ProductRateController::class);
+    Route::resource('/carts', CartItemController::class);
+    Route::resource('/orders', OrderController::class);
+    
+    Route::post('/orders/cancel/{id}', [OrderController::class, 'cancelOrder']);
+    
+});
 
-Route::resource('/products', ProductController::class);
-Route::post('/products/{id}', [ProductController::class, 'update']);
-Route::resource('/rates', ProductRateController::class);
-Route::resource('/carts', CartItemController::class);
-Route::resource('/orders', OrderController::class);
 
-Route::post('/orders/cancel/{id}', [OrderController::class, 'cancelOrder']);
+
+
 
 
 
