@@ -9,6 +9,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Order\CartItemController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\admin\AuthAdminController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\product\CampanyController;
 use App\Http\Controllers\product\CategoryController;
 use App\Http\Controllers\product\ProductController;
@@ -47,6 +48,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::resource('/rates', ProductRateController::class);
     Route::resource('/carts', CartItemController::class);
     Route::resource('/orders', OrderController::class);
+    Route::resource('/offers' , OfferController::class)->only('store' , 'update');
+
 
     Route::post('/orders/cancel/{id}', [OrderController::class, 'cancelOrder']);
 
@@ -65,7 +68,10 @@ Route::middleware('auth:admin')->group(function () {
         Route::post('/products', [ProductController::class, 'store']);
         Route::post('/products/{id}', [ProductController::class, 'update']);
         Route::resource('/admin/orders', OrderAdminController::class)->only('index' , 'destroy' ,'update');
+            Route::resource('/offers' , OfferController::class)->only('index' , 'destroy');
+
 });
+
 
 
 
