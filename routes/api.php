@@ -9,6 +9,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Order\CartItemController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\admin\AuthAdminController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\product\CampanyController;
@@ -77,6 +78,8 @@ Route::middleware('auth:admin')->group(function () {
 
 
 
+    Route::post('/messages', [ChatController::class, 'store']);
+    Route::get('/messages', [ChatController::class, 'getMessages']);
 
 
     Route::post('/payments' ,[ PaymentController::class , 'pay']);
