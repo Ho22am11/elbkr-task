@@ -12,27 +12,12 @@ use Illuminate\Http\Request;
 class ChatController extends Controller
 {
     use ApiResponseTrait ;
-    public function store(Request $request)
+    public function store(Request $request , MessageServices $message_services)
 {
-     $sender = auth('user')->check()
-        ? auth('user')->user()
-        : auth('admin')->user();
+     $message = $message_services->send($request);
 
-     $receiverType = $request->receiver_type === 'admin'
-        ? 'App\\Models\\Admin'
-        : 'App\\Models\\User';
+    return $this->ApiResponse( new MessageResource($message) , 'send message' , 201) ;
 
-    $message = Message::create([
-        'sender_id' => $sender->id,
-        'sender_type' => get_class($sender),
-        'receiver_id' => $request->receiver_id,
-        'receiver_type' => $receiverType ,
-        'message' => $request->message,
-    ]);
-
-    broadcast(new MessageSent($message))->toOthers();
-
-    return response()->json($message);
 }
 
 
