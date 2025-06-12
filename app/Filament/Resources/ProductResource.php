@@ -24,34 +24,37 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2'; // heroicon-s => icon solid in heroicon , m 
-    protected static ?string $navigationLabel = 'المنتجات' ;
-    protected static ?string $pluralLabel = 'المنتجات' ;
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2'; // heroicon-s => icon solid in heroicon , m
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+
+
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
 
-                TextInput::make('name')->required()->label('اسم المنتج'),
-                TextInput::make('description')->required()->Label('الوصف'),
-                TextInput::make('price')->numeric()->minValue(0)->required()->Label('السعر'),
-                Select::make('campany_id')->relationship('campany' , 'name')->required()->Label('اسم الشركه'),
-                Select::make('category_id')->relationship('category' , 'name')->required()->Label('الفئه'),
+                TextInput::make('name')->required()->label(__('Product Name')),
+                TextInput::make('description')->required()->Label(__('Description')),
+                TextInput::make('price')->numeric()->minValue(0)->required()->Label(__('Price')),
+                Select::make('campany_id')->relationship('campany' , 'name')->required()->Label(__('Company Name')),
+                Select::make('category_id')->relationship('category' , 'name')->required()->Label(__('Category')),
 
 
 
                 Repeater::make('attachements')
                 ->relationship('attachements')
-                ->label('صور المنتج')
+                ->label(__('Product Image'))
                 ->columns(1)
                 ->minItems(1)
                 ->schema([
                      FileUpload::make('img')
                         ->directory('product_attachments')
                         ->disk('public')
-                        ->label('صورة ')
-                        ->helperText('صزره المنتج')
+                        ->label(__('Image'))
+                        ->helperText(__('Product Image'))
                         ->image()
                         ->imageEditor()
                         ->required()
@@ -65,12 +68,12 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->label('اسم المنتج'),
-                TextColumn::make('description')->Label('الوصف'),
-                TextColumn::make('price')->Label('السعر'),
-                TextColumn::make('campany.name')->Label('اسم الشركه'),
-                TextColumn::make('category.name')->Label('الفئه'),
-                TextColumn::make('created_at')->since()->Label('منذ'),
+                TextColumn::make('name')->label(__('Product Name'))->searchable(),
+                TextColumn::make('description')->Label(__('Description')),
+                TextColumn::make('price')->Label(__('Price'))->searchable(),
+                TextColumn::make('campany.name')->Label(__('Company Name'))->searchable(),
+                TextColumn::make('category.name')->Label(__('Category'))->searchable(),
+                TextColumn::make('created_at')->since()->Label(__('since')),
             ])->defaultSort('created_at', 'desc')
             ->filters([
                 //
@@ -100,10 +103,17 @@ class ProductResource extends Resource
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
-    public static function getLabel(): ?string
+
+
+     public static function getLabel(): ?string
     {
-        return 'المنتجات';
+        return __('Products');
     }
+
+    public static function getNavigationLabel(): string
+{
+    return __('Products');
+}
 
 
 

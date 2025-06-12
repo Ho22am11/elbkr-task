@@ -22,9 +22,6 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
 
-    protected static ?string $navigationLabel = 'الطلبات ' ;
-    protected static ?string $pluralLabel     = 'قائمه الطلبات';
-
 
     public static function form(Form $form): Form
     {
@@ -32,31 +29,32 @@ class OrderResource extends Resource
             ->schema([
                 Select::make('user_id')
                 ->relationship('user', 'frist_name')
-                ->label('اسم العميل')
+                ->label(__('Customer Name'))
                 ->required(),
 
                 Repeater::make('order_items')
                 ->relationship('orderItems')
-                ->label('عناصر الطلب')
+                ->label(__('Order Items'))
                 ->schema([
                     Select::make('product_id')
                     ->relationship('product', 'name')
-                    ->label('المنتج')
+                    ->label(__('Product'))
                     ->required(),
 
                     TextInput::make('quantity')
                     ->numeric()
                     ->minValue(1)
-                    ->label('الكمية')
+                    ->label(__('Quantity'))
                     ->required(),
 
                     Select::make('export_type')
-                    ->options([1 => 'توريد فقط', 2 => 'توريد و تركيب بدون نحاس', 3 => 'عشره متر نحاس + توريد و تركي '
+                    ->options([1 => __('Supply Only'), 2 =>  __('Supply and Installation without Copper'),
+                    3 => __('Ten Meters Copper + Supply and Installation')
                     ])
-                    ->label('نوع التصدير')
+                    ->label(__('Export Type'))
                     ->required(),
                      Placeholder::make('price')
-                        ->label('السعر')
+                        ->label(__('Price'))
                         ->content(function ($get) {
                             $product = product::find($get('product_id'));
                             return $product ? $product->price . ' ج.م' : '-';
@@ -67,7 +65,7 @@ class OrderResource extends Resource
 
 
                     Placeholder::make('total_price')
-                ->label('الإجمالي الكلي')
+                ->label(__('Total Amount'))
                 ->content(function ($get) {
                     $total = 0;
                     foreach ($get('order_items') ?? [] as $item) {
@@ -89,13 +87,13 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.frist_name')->label('اسم العميل'),
-                TextColumn::make('status')->label('حاله الطلب'),
-                TextColumn::make('total_price')->label('الاجمالي')
+                TextColumn::make('user.frist_name')->label(__('Customer Name'))->searchable(),
+                TextColumn::make('status')->label(__('Order state')),
+                TextColumn::make('total_price')->label(__('Total Amount'))
                     ->searchable(),
                 TextColumn::make('created_at')
                    ->since()
-                    ->label('منذ'),
+                    ->label(__('since')),
 
             ])
             ->defaultSort('created_at' ,'desc')
@@ -130,9 +128,28 @@ class OrderResource extends Resource
         ];
     }
 
-
     public static function getLabel(): ?string
     {
-        return 'الطلبات';
+        return __('Orders');
     }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Orders');
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['user.frist_name'];
+    }
+
+public static function getGlobalSearchResultDetails($record): array
+{
+    return [
+        __('Customer Name') => $record->user->frist_name,
+        __('Total Amount')=> $record->total_price,
+    ];
 }
+}
+
+

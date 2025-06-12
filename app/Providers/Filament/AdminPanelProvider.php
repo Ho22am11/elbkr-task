@@ -6,8 +6,10 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
+
 
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -18,6 +20,9 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use BezhanSalleh\FilamentLanguageSwitch\FilamentLanguageSwitchPlugin;
+
+
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -31,11 +36,11 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->authGuard('admin')
             ->authPasswordBroker('admins')
-
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->brandName('البكر للتكيف')
+            ->brandName(fn () => __('elbkr'))
+            ->font('Tajawal')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -54,7 +59,21 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+              ->userMenuItems([
+                'arabic' => MenuItem::make()
+                    ->label('العربية')
+                    ->icon('heroicon-o-language')
+                    ->url(fn() => request()->fullUrlWithQuery(['locale' => 'ar'])),
+                'english' => MenuItem::make()
+                    ->label('English')
+                    ->icon('heroicon-o-language')
+                    ->url(fn() => request()->fullUrlWithQuery(['locale' => 'en'])),
             ]);
+
+
+
+       ;
     }
 
 
