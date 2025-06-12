@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
+use App\Filament\Resources\RatesRelationManagerResource\RelationManagers\RatesRelationManager;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
@@ -38,7 +39,7 @@ class ProductResource extends Resource
                 Select::make('campany_id')->relationship('campany' , 'name')->required()->Label('اسم الشركه'),
                 Select::make('category_id')->relationship('category' , 'name')->required()->Label('الفئه'),
 
-                
+
 
                 Repeater::make('attachements')
                 ->relationship('attachements')
@@ -52,6 +53,7 @@ class ProductResource extends Resource
                         ->label('صورة ')
                         ->helperText('صزره المنتج')
                         ->image()
+                        ->imageEditor()
                         ->required()
                 ]),
 
@@ -63,7 +65,6 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id'),
                 TextColumn::make('name')->label('اسم المنتج'),
                 TextColumn::make('description')->Label('الوصف'),
                 TextColumn::make('price')->Label('السعر'),
@@ -87,7 +88,7 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+                RatesRelationManager::class,
         ];
     }
 

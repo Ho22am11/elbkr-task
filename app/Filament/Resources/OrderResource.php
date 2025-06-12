@@ -89,7 +89,6 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id'),
                 TextColumn::make('user.frist_name')->label('اسم العميل'),
                 TextColumn::make('status')->label('حاله الطلب'),
                 TextColumn::make('total_price')->label('الاجمالي')
