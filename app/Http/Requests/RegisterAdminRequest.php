@@ -16,7 +16,7 @@ class RegisterAdminRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'frist_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
             'last_name'  => 'required|string|max:255',
             'email'      => 'required|email:filter,dns,spoof|unique:admins,email',
             'phone'      => 'required|string|max:20',
@@ -28,7 +28,7 @@ class RegisterAdminRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'frist_name.required' => 'Please provide your first name.',
+            'first_name.required' => 'Please provide your first name.',
             'last_name.required'  => 'Please provide your last name.',
             'email.required'      => 'Email is required.',
             'email.email'         => 'The email format is invalid.',
