@@ -4,9 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderItemRelationManagerResource\RelationManagers\OrderItemsRelationManager;
 use App\Filament\Resources\OrderResource\Pages;
-use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -14,11 +12,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\OrderResource\RelationManagers\OrderItemRelationManager;
 use App\Models\product;
 use Filament\Forms\Components\Placeholder;
+use Filament\Tables\Columns\TextColumn;
 
 class OrderResource extends Resource
 {
@@ -93,15 +89,14 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('status')->label('حاله الطلب'),
-                Tables\Columns\TextColumn::make('total_price')->label('الاجمالي')
+                TextColumn::make('id'),
+                TextColumn::make('user.frist_name')->label('اسم العميل'),
+                TextColumn::make('status')->label('حاله الطلب'),
+                TextColumn::make('total_price')->label('الاجمالي')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                    ->since()
-                   ->sortable('desc')
                     ->label('منذ'),
-                 Tables\Columns\TextColumn::make('user.frist_name')->label('اسم العميل'),
 
             ])
             ->defaultSort('created_at' ,'desc')
