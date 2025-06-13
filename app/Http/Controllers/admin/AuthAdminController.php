@@ -48,4 +48,6 @@ class AuthAdminController extends Controller
         return $this->ApiResponse( null , 'Logged out successfully' , 201);
 
     }
+
+    
 }

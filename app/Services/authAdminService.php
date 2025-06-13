@@ -11,7 +11,7 @@ class authAdminService
     {
 
         $user = Admin::create([
-            'frist_name' => $data['frist_name'],
+            'first_name' => $data['first_name'],
             'last_name'  => $data['last_name'],
             'email'      => $data['email'],
             'phone'      => $data['phone'],
