@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreOrderItemRequest extends FormRequest
+class StoreOrderItemRequest extends ApiBaseRequest
 {
     public function authorize(): bool
     {
@@ -18,7 +18,7 @@ class StoreOrderItemRequest extends FormRequest
         return [
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
-            'export_type' => 'required|in:1,2,3', 
+            'export_type' => 'required|in:1,2,3',
         ];
     }
 
@@ -42,11 +42,5 @@ class StoreOrderItemRequest extends FormRequest
 
 
 
-     protected function failedValidation(Validator $validator): void
-    {
-        throw new HttpResponseException(response()->json([
-            'message' => 'Validation failed.',
-            'errors'  => $validator->errors(),
-        ], 422));
-    }
+    
 }

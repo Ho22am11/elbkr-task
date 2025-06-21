@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreCampanyRequest extends FormRequest
+class StoreCampanyRequest extends ApiBaseRequest
 {
     public function authorize()
     {
@@ -20,10 +20,10 @@ class StoreCampanyRequest extends FormRequest
             'img'  => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
-    
+
    public function messages()
     {
-        
+
         return [
             'name.required' => 'الاسم مطلوب',
             'name.string' => 'الاسم يجب أن يكون نصاً',
@@ -36,12 +36,6 @@ class StoreCampanyRequest extends FormRequest
         ];
     }
 
-     protected function failedValidation(Validator $validator): void
-    {
-        throw new HttpResponseException(response()->json([
-            'message' => 'Validation failed.',
-            'errors'  => $validator->errors(),
-        ], 422));
-    }
-    
+
+
 }
