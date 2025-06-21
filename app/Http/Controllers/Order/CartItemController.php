@@ -28,7 +28,7 @@ class CartItemController extends Controller
     {
         $user = JWTAuth::parseToken()->authenticate();
 
-            $data = $request->all();
+            $data = $request->validated();
             $data['user_id'] = $user->id;
             $cart = CartItem::create($data);
         return $this->ApiResponse(new cartItemResource($cart) , 'cart stored successflly' , 201) ;
