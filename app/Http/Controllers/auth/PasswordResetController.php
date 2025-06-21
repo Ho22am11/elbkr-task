@@ -18,7 +18,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class PasswordResetController extends Controller
 {
-    use ApiResponseTrait;
     public function sendPasswordResetCode(SendResetCodeRequest $request , EmailVerificationService $reset)
     {
         $reset->sendCode($request->email);
@@ -27,15 +26,15 @@ class PasswordResetController extends Controller
 
 
     public function verifyResetCode(VerifyResetCodeRequest $request , PasswordResetService $reset)
-    { 
+    {
         $result = $reset->verifyCode($request->email, $request->code);
-        
+
         if (isset($result['error'])) {
             return $this->ApiResponse(null, $result['error'], $result['status']);
         }
-        
+
         return $this->ApiResponse(['token' => $result['token']], 'Email verified successfully.', 200);
-        
+
     }
 
 
@@ -44,7 +43,7 @@ class PasswordResetController extends Controller
         $user = $reset->resetPassword($request->password) ;
         return $this->ApiResponse($user , 'Password has been reset successfully.', 200);
     }
-        
-    
+
+
 
 }

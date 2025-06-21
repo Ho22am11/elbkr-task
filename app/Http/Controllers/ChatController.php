@@ -6,12 +6,10 @@ use App\Events\MessageSent;
 use App\Http\Resources\MessageResource;
 use App\Models\Message;
 use App\Services\MessageServices;
-use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
-    use ApiResponseTrait ;
     public function store(Request $request , MessageServices $message_services)
 {
      $message = $message_services->send($request);

@@ -8,13 +8,11 @@ use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\OrderService;
-use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class OrderController extends Controller
 {
-    use ApiResponseTrait ;
 
      protected $orderservice;
 
@@ -28,7 +26,7 @@ class OrderController extends Controller
     {
         $order =$this->orderservice->getOrders();
          return $this->ApiResponse( OrderResource::collection($order) , 'order retrieved successfully', 200);
-        
+
     }
 
 
@@ -62,18 +60,18 @@ class OrderController extends Controller
         if (isset($result['error'])) {
             return response()->json(['message' => $result['error']], 400);
         }
-        
+
         return $this->ApiResponse(new OrderResource($result['order']), 'order retrieved successfully', 200);
-        
-        
+
+
     }
 
 
     public function cancelOrder($id)
     {
-        $order =$this->orderservice->cancelOrder($id);        
-        
+        $order =$this->orderservice->cancelOrder($id);
+
         return $this->ApiResponse(new OrderResource($order), 'Order cancelled successfully', 200);
     }
-    
+
 }
