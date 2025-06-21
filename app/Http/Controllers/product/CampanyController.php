@@ -4,7 +4,7 @@ namespace App\Http\Controllers\product;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCampanyRequest;
-use App\Models\campany;
+use App\Models\Campany;
 use App\Services\CampanyService;
 use Illuminate\Http\Request;
 
@@ -19,7 +19,7 @@ class CampanyController extends Controller
 
     public function index()
     {
-        $campany = campany::all();
+        $campany = Campany::all();
         return $this->ApiResponse($campany , 'Categories retrieved successfully.' , 200);
 
     }
