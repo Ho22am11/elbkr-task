@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class SendVerificationCodeRequest extends FormRequest
+class SendVerificationCodeRequest extends ApiBaseRequest
 {
    public function authorize(): bool
     {
@@ -28,15 +28,7 @@ class SendVerificationCodeRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator): void
-    {
-        throw new HttpResponseException(
-            response()->json([
-                'message' => 'Validation failed.',
-                'errors'  => $validator->errors(),
-            ], 422)
-        );
-    }
+   
 
 
 }

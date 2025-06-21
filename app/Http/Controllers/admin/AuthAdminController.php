@@ -12,7 +12,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthAdminController extends Controller
 {
-        use ApiResponseTrait ;
 
     public function register(RegisterAdminRequest $request , authAdminService $authadminservice)
     {
@@ -48,4 +47,6 @@ class AuthAdminController extends Controller
         return $this->ApiResponse( null , 'Logged out successfully' , 201);
 
     }
+
+
 }

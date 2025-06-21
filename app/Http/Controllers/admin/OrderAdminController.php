@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 
 class OrderAdminController extends Controller
 {
-    use ApiResponseTrait ;
     public function index()
     {
         $order = Order::with('orderItems.product')->latest()->get();

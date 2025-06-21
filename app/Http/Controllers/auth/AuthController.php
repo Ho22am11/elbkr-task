@@ -18,17 +18,16 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
-    use ApiResponseTrait ;
     public function sendVerificationCode(SendVerificationCodeRequest $request , EmailVerificationService $service)
     {
-        
+
         $service->sendCode($request->email);
-        
+
         return $this->ApiResponse( null , 'Verification code sent successfully.' , 200);
     }
-    
 
-    
+
+
     public function verifyCode(VerifyCodeRequest $request , EmailVerificationService $service )
     {
         $verifyCode =$service->verifyCode($request->email , $request->code);
@@ -36,14 +35,14 @@ class AuthController extends Controller
         if (!$verifyCode) {
             return $this->ApiResponse( null , 'Invalid verification code.' , 422);
         }
-        
+
         return $this->ApiResponse( null , 'Email verified successfully.' , 200);
-        
+
     }
-    
+
     public function register(RegisterRequest $request , AuthService $authService)
     {
-    
+
          $user = $authService->register($request->all());
 
         if (isset($user['error'])) {
@@ -52,7 +51,7 @@ class AuthController extends Controller
         }
 
         return $this->ApiResponse( $user , 'Registration successful.' , 201);
-        
+
     }
 
 
@@ -76,18 +75,18 @@ class AuthController extends Controller
         JWTAuth::setToken($token)->invalidate();
 
         return $this->ApiResponse( null , 'Logged out successfully' , 201);
-    
+
     }
 
     public function refresh(Request $request){
 
         $token = $request->bearerToken();
-        
+
         JWTAuth::setToken($token)->refresh();
 
         return $this->ApiResponse( $token , 'refresh successfully' , 201);
     }
-    
+
 
 
 }

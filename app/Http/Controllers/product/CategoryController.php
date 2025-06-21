@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    use ApiResponseTrait;
     public function index()
     {
         $cate = category::all();

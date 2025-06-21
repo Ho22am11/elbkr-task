@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 
 class OfferController extends Controller
 {
-    use ApiResponseTrait ;
     public function index()
     {
         $offer = Offer::latest()

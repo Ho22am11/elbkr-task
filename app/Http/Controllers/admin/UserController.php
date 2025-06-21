@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    use ApiResponseTrait ;
     public function deleteAccount($id)
     {
         User::destroy($id);

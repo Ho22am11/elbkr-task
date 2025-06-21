@@ -8,13 +8,11 @@ use App\Http\Resources\cartItemResource;
 use App\Http\Resources\cartResource;
 use App\Models\CartItem;
 use App\Services\CartService;
-use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CartItemController extends Controller
 {
-    use ApiResponseTrait ;
 
     public function index( CartService $cartservice)
 {
@@ -23,14 +21,14 @@ class CartItemController extends Controller
     return $this->ApiResponse(['items' => CartResource::collection($cart['items']),
         'total_price' => $cart['total']]
         , 'cart retrieved successflly' , 200) ;
-        
+
 }
 
      public function store(StoreOrderItemRequest $request)
     {
         $user = JWTAuth::parseToken()->authenticate();
 
-            $data = $request->all();
+            $data = $request->validated();
             $data['user_id'] = $user->id;
             $cart = CartItem::create($data);
         return $this->ApiResponse(new cartItemResource($cart) , 'cart stored successflly' , 201) ;
@@ -52,5 +50,5 @@ class CartItemController extends Controller
     }
 
 
-         
+
 }

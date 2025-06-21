@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 
-class SendResetCodeRequest extends FormRequest
+class SendResetCodeRequest extends ApiBaseRequest
 {
     public function authorize(): bool
     {
@@ -30,15 +30,7 @@ class SendResetCodeRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator): void
-    {
-        throw new HttpResponseException(
-            response()->json([
-                'message' => 'Validation failed.',
-                'errors'  => $validator->errors(),
-            ], 422)
-        );
-    }
+
 
 
 }
