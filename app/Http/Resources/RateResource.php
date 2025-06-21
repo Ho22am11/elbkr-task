@@ -8,11 +8,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class RateResource extends JsonResource
 {
-    
+
     public function toArray(Request $request): array
     {
         return [
-            'name_user' => $this->user->frist_name.' '.$this->user->last_name,
+            'name_user' => $this->user->fullName ,
             'rate' => $this->rating,
             'date' => $this->created_at->diffForHumans(),
             'content' => $this->content,
