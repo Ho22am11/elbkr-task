@@ -24,12 +24,11 @@ class ProductController extends Controller
     {
         $response = $this->productservice->getFilteredProducts($request);
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'Products retrieved successfully',
-            'data' => $response['products'],
-            'meta' => $response['meta']
-        ]);
+        $productsResource = ProductResource::collection($response['products'])
+        ->additional(['meta' => $response['meta']]);
+
+
+        return $this->ApiResponse($productsResource , 'Products retrieved successfully' , 200);
 
 
     }
