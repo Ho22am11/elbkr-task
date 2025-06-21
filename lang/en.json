@@ -35,7 +35,18 @@
     "Product Images": "Product Images",
     "Image": "Image",
     "Product Image": "Product Image",
-    "elbkr" : "El bkr"
+    "elbkr" : "El bkr" ,
+
+
+    "heading": "Orders Per Week",
+    "dataset_label": "Number of Orders",
+    "day_1": "Sunday",
+    "day_2": "Monday",
+    "day_3": "Tuesday",
+    "day_4": "Wednesday",
+    "day_5": "Thursday",
+    "day_6": "Friday",
+    "day_7": "Saturday"
 
 
 }

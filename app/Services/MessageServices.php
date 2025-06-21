@@ -31,6 +31,13 @@ class MessageServices
     return $message ;
     }
 
+
+
+
+
+
+    
+
     public function getMessages($otherUserId ,  $otherUserType){
         $currentUser = auth('user')->check()
         ? auth('user')->user()
