@@ -83,13 +83,7 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::post('/payments' ,[ PaymentController::class , 'pay']);
 
-    Route::get('update',function(){
-        $adm = Admin::first();
-        $adm->password = bcrypt("123123123");
-        $adm->save();
-        return $adm ;
-    });
-
+ 
 
         Route::post('/products', [ProductController::class, 'store']);
         Route::post('/products/{id}', [ProductController::class, 'update']);
